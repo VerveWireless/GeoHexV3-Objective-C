@@ -826,4 +826,22 @@
     return [NSString stringWithFormat:@"GeoHex %@ level:%i x:%i y:%i (%f,%f) size: %f",self.code,self.level,(int)self.position.x,(int)self.position.y,self.coordinate.latitude,self.coordinate.longitude,[GeoHexV3 hexSizeForLevel:self.level]];
 }
 
+#pragma mark - Equality
+
+- (BOOL)isEqual:(id)object {
+    if (self == object) {
+        return YES;
+    } else if ([object isKindOfClass:[GeoHexV3 class]]) {
+        GeoHexV3 *otherGeoHex = (GeoHexV3*)object;
+        if ([self.code isEqualToString:otherGeoHex.code]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (NSUInteger)hash {
+    return [self.code hash];
+}
+
 @end
