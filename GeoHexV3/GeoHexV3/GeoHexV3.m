@@ -845,3 +845,46 @@
 }
 
 @end
+
+///GeoHex as an MKPolyline overlay
+@interface GeoHexV3Polyline ()
+
+@property (strong,nonatomic,readwrite) GeoHexV3 *geoHex;
+
+@end
+
+@implementation GeoHexV3Polyline
+
++(GeoHexV3Polyline*)geoHexPolylineFromGeoHex:(GeoHexV3*)geoHex {
+    NSMutableArray *locations = [NSMutableArray arrayWithArray:geoHex.locations];
+    [locations addObject:[locations firstObject]];
+    NSUInteger pointCount = [locations count];
+    //constructer takes a c array
+    CLLocationCoordinate2D *lineCoordinates = malloc(pointCount * sizeof(CLLocationCoordinate2D));
+    for (NSInteger i = 0; i < [locations count]; i++) {
+        CLLocation *thisLocation = locations[i];
+        lineCoordinates[i] = CLLocationCoordinate2DMake(thisLocation.coordinate.latitude, thisLocation.coordinate.longitude);
+    }
+    GeoHexV3Polyline *line = [GeoHexV3Polyline polylineWithCoordinates:lineCoordinates count:pointCount];
+    line.geoHex = geoHex;
+    free(lineCoordinates);
+    return line;
+}
+
+- (BOOL)isEqual:(id)object {
+    if (self == object) {
+        return YES;
+    } else if ([object isKindOfClass:[GeoHexV3Polyline class]]) {
+        GeoHexV3Polyline *otherGeoHexPolyline = (GeoHexV3Polyline*)object;
+        if ([self.geoHex isEqual:otherGeoHexPolyline.geoHex]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (NSUInteger)hash {
+    return [self.geoHex hash];
+}
+
+@end

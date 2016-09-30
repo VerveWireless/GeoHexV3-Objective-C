@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <MapKit/MKMapView.h>
+#import <MapKit/MapKit.h>
 
 #define kGeoHexV3Version			@"3.2"
 
@@ -73,5 +73,14 @@
 -(NSArray<GeoHexV3*>*)perimeterHexes;
 
 -(NSArray<GeoHexV3*>*)perimeterHexesWithRings:(int)numberOfRings;
+
+@end
+
+///GeoHex as an MKPolyline overlay
+@interface GeoHexV3Polyline : MKPolyline
+
+@property (strong,nonatomic,readonly) GeoHexV3 *geoHex;
+
++(GeoHexV3Polyline*)geoHexPolylineFromGeoHex:(GeoHexV3*)geoHex;
 
 @end
