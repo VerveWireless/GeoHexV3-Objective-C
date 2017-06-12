@@ -199,7 +199,7 @@
     for(i=0;i<=level+2;i++){
         double h_pow = pow(3,level+2-i);
         if ([h_decx count] <= level+2) {
-            NSLog(@"%@ not enough digits in h_decx h_dec3 length: %lu",code, [h_dec3 length]);
+            NSLog(@"%@ not enough digits in h_decx h_dec3 length: %lu",code, (unsigned long)[h_dec3 length]);
             return nil;
         }
         if([[h_decx objectAtIndex:i] isEqualToString:@"0"]){
@@ -844,6 +844,14 @@
     return [self.code hash];
 }
 
+- (id)copyWithZone:(nullable NSZone *)zone {
+    id theCopy = [[[self class] alloc] init];
+    [theCopy setCode:self.code];
+    [theCopy setCoordinate:self.coordinate];
+    [theCopy setPosition:self.position];
+    return theCopy;
+}
+
 @end
 
 ///GeoHex as an MKPolyline overlay
@@ -876,7 +884,7 @@
         return YES;
     } else if ([object isKindOfClass:[GeoHexV3Polyline class]]) {
         GeoHexV3Polyline *otherGeoHexPolyline = (GeoHexV3Polyline*)object;
-        if ([self.geoHex isEqual:otherGeoHexPolyline.geoHex]) {
+        if ([self.geoHex isEqual:otherGeoHexPolyline.geoHex] && [self.title isEqualToString:otherGeoHexPolyline.title]) {
             return YES;
         }
     }
@@ -884,7 +892,7 @@
 }
 
 - (NSUInteger)hash {
-    return [self.geoHex hash];
+    return [self.geoHex hash] ^ [self.title hash];
 }
 
 @end

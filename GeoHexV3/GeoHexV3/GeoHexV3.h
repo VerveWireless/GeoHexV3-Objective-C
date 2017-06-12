@@ -13,7 +13,7 @@
 //TODO: make level an unsigned int
 //TODO: replace MKMapPoints used as an x/y geohex struct because they are not real MKMapPoints, they could be confusing to the user.
 
-@interface GeoHexV3 : NSObject
+@interface GeoHexV3 : NSObject <NSCopying>
 
 /** The GeoHex code */
 @property(nonatomic, strong, readonly) NSString *code;
