@@ -896,3 +896,46 @@
 }
 
 @end
+
+///GeoHex as an MKPolygon overlay
+@interface GeoHexV3Polygon ()
+
+@property (strong,nonatomic,readwrite) GeoHexV3 *geoHex;
+
+@end
+
+@implementation GeoHexV3Polygon
+
++(GeoHexV3Polygon*)geoHexPolygonFromGeoHex:(GeoHexV3*)geoHex {
+    NSMutableArray *locations = [NSMutableArray arrayWithArray:geoHex.locations];
+    [locations addObject:[locations firstObject]];
+    NSUInteger pointCount = [locations count];
+    //constructer takes a c array
+    CLLocationCoordinate2D *exteriorCoordinates = malloc(pointCount * sizeof(CLLocationCoordinate2D));
+    for (NSInteger i = 0; i < [locations count]; i++) {
+        CLLocation *thisLocation = locations[i];
+        exteriorCoordinates[i] = CLLocationCoordinate2DMake(thisLocation.coordinate.latitude, thisLocation.coordinate.longitude);
+    }
+    GeoHexV3Polygon *polygon = [GeoHexV3Polygon polygonWithCoordinates:exteriorCoordinates count:pointCount];
+    polygon.geoHex = geoHex;
+    free(exteriorCoordinates);
+    return polygon;
+}
+
+- (BOOL)isEqual:(id)object {
+    if (self == object) {
+        return YES;
+    } else if ([object isKindOfClass:[GeoHexV3Polygon class]]) {
+        GeoHexV3Polygon *otherGeoHexPolygon = (GeoHexV3Polygon*)object;
+        if ([self.geoHex isEqual:otherGeoHexPolygon.geoHex] && [self.title isEqualToString:otherGeoHexPolygon.title]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (NSUInteger)hash {
+    return [self.geoHex hash] ^ [self.title hash];
+}
+
+@end

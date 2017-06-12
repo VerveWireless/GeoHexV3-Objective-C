@@ -84,3 +84,12 @@
 +(GeoHexV3Polyline*)geoHexPolylineFromGeoHex:(GeoHexV3*)geoHex;
 
 @end
+
+///GeoHex as an MKPolygon overlay
+@interface GeoHexV3Polygon : MKPolygon
+
+@property (strong, nonatomic, readonly) GeoHexV3 *geoHex;
+
++(GeoHexV3Polygon*)geoHexPolygonFromGeoHex:(GeoHexV3*)geoHex;
+
+@end
