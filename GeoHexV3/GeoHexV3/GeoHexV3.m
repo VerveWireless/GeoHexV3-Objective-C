@@ -845,7 +845,7 @@
 }
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    id theCopy = [[[self class] alloc] init];
+    GeoHexV3 *theCopy = [[[self class] alloc] init];
     [theCopy setCode:self.code];
     [theCopy setCoordinate:self.coordinate];
     [theCopy setPosition:self.position];
