@@ -844,11 +844,11 @@
     return [self.code hash];
 }
 
-- (id)copyWithZone:(nullable NSZone *)zone {
+- (GeoHexV3*)copyWithZone:(nullable NSZone *)zone {
     GeoHexV3 *theCopy = [[[self class] alloc] init];
-    [theCopy setCode:self.code];
-    [theCopy setCoordinate:self.coordinate];
-    [theCopy setPosition:self.position];
+    theCopy.code = self.code;
+    theCopy.coordinate = self.coordinate;
+    theCopy.position = self.position;
     return theCopy;
 }
 
